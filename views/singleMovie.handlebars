@@ -1,0 +1,11 @@
+<h1 class='text-center'>
+  Single movie
+</h1>
+{{#each movies as |movie|}}
+  <div class='w-70 bg-info bg-gradient m-4 p-2 d-flex justify-content-between align-items-center'>
+    {{movie.movie_name}}
+    <button class='btn btn-danger delete_btn' data-movie_id='{{movie.movie_id}}'>Delete</button>
+  </div>
+{{/each}}
+
+<script src='/js/delete-movie.js'></script>

@@ -1,0 +1,38 @@
+<h1 class='text-center'>
+  Movies
+</h1>
+
+<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#exampleModal'>
+  Add Movie
+</button>
+
+{{#each movies as |movie|}}
+  <div class='w-70 bg-info bg-gradient m-4 p-3 d-flex justify-content-between align-items-center'>
+    {{movie.movie_name}}
+    <a class='btn btn-success' href='/api/movie/{{movie.movie_id}}'>view...</a>
+  </div>
+
+{{/each}}
+
+<!-- Button trigger modal -->
+
+<!-- Modal -->
+<div class='modal fade' id='exampleModal' tabindex='-1' aria-labelledby='add-movie' aria-hidden='true'>
+  <div class='modal-dialog'>
+    <div class='modal-content'>
+      <div class='modal-header'>
+        <h5 class='modal-title' id='exampleModalLabel'>ADD A MOVIE</h5>
+        <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+      </div>
+      <div class='modal-body'>
+        <form id='add-movie'>
+          <input type='text' class='movie-name form-control mb-2' placeholder='Movie name' />
+          <input type='submit' class='btn btn-primary form-control' value='Add Movie' />
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src='/js/add-movie.js'></script>
