@@ -1,5 +1,6 @@
 // POST movie
 import db from '../config/connection.js';
+import review from '../routes/reviewRoutes.js';
 
 const createMovie = async (req, res) => {
   try {
@@ -36,23 +37,88 @@ const getAllMovies = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
-// Get movies by ID
 const getSingleMovie = async (req, res) => {
   try {
     const movie_id = req.params.movie_id;
-    const query = `SELECT * FROM movies WHERE movie_id = ?`;
+    const moviesArr = {
+      movies: null,
+      reviews: null,
+    };
 
-    db.query(query, [movie_id], (error, movies) => {
-      if (error) {
-        console.log(error);
-      }
-      res.render('singleMovie', { movies });
+    const query = `SELECT * FROM movies WHERE movie_id = ?;`;
+    const query2 = `SELECT * FROM reviews WHERE movie_id = ?;`;
+
+    // Fetch reviews
+    const reviews = await new Promise((resolve, reject) => {
+      db.query(query2, [movie_id], (error, reviews) => {
+        if (error) {
+          reject(error);
+        }
+        resolve(reviews);
+      });
     });
+
+    moviesArr.reviews = reviews;
+    // Adding reviews to moviesArr
+
+    // Fetch movie details
+    const movies = await new Promise((resolve, reject) => {
+      db.query(query, [movie_id], (error, movies) => {
+        if (error) {
+          reject(error);
+        }
+        resolve(movies);
+      });
+    });
+
+    moviesArr.movies = movies; // Adding movie details to moviesArr
+
+    // Check if moviesArr contains the merged data
+    console.log(moviesArr);
+    // Render the view with the data
+    res.render('singleMovie', { moviesArr });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
+
+// // Get movies by ID
+// const getSingleMovie = async (req, res) => {
+//   try {
+//     const movie_id = req.params.movie_id;
+
+//     const moviesArr = [];
+
+//     const query = `SELECT * FROM movies WHERE movie_id = ?;`;
+//     const query2 = `SELECT * FROM reviews WHERE movie_id = ?;`;
+
+//     db.query(query2, [movie_id],  (error, reviews) => {
+//       if (error) {
+//         console.log(error);
+//       }
+
+//        moviesArr?.push(reviews);
+
+//       console.log(moviesArr);
+//     });
+
+//     db.query(query, [movie_id],  (error, movies) => {
+//       if (error) {
+//         console.log(error);
+//       }
+
+//         moviesArr?.push(movies);
+
+//       console.log(moviesArr);
+//     });
+
+//     console.log(moviesArr);
+
+//     res.render('singleMovie', {});
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// };
 
 // UPDATE movie
 const updateMovie = async (req, res) => {

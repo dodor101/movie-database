@@ -16,9 +16,8 @@ const handleAddMovie = async (e) => {
 
     const response = await add_Movie.json();
     if (response) {
-      alert(response.successMsg);
+      location.reload();
     }
-    location.reload();
   } catch (error) {
     alert(error.message);
   }

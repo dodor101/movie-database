@@ -7,14 +7,14 @@ USE movie_database;
 
 CREATE TABLE movies (
   movie_id INT PRIMARY KEY AUTO_INCREMENT,
-  move_name VARCHAR(100) NOT NULL
+  movie_name VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE reviews (
-  reviews_id INT PRIMARY KEY AUTO_INCREMENT,
+  review_id INT PRIMARY KEY AUTO_INCREMENT,
   movie_id INT,
   review TEXT,
-  FOREIGN KEY(movie_id)
+  FOREIGN KEY (movie_id)
   REFERENCES movies(movie_id)
   ON DELETE CASCADE
 );

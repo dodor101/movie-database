@@ -4,8 +4,8 @@ import API from './routes/index.js';
 const PORT = process.env.PORT || 3001;
 dotEnv.config();
 import express_handlebars from 'express-handlebars';
-import path from 'path';
-const hbs = express_handlebars.create({});
+import helpers from './utils/helpers.js';
+const hbs = express_handlebars.create({ helpers });
 
 const app = express();
 
@@ -16,6 +16,10 @@ app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
 app.use(express.static('public'));
+
+app.get('/add-review', (req, res) => {
+  res.render('add-review');
+});
 
 app.use('/api', API);
 

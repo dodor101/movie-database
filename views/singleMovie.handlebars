@@ -1,20 +1,33 @@
 <h1 class='text-center'>
   Single movie
 </h1>
-{{#each movies as |movie|}}
-  <div class='w-70 bg-info bg-gradient m-4 p-2 d-flex justify-content-between align-items-center'>
-    {{movie.movie_name}}
-    <div class='d-flex justify-content-between gap-2'>
+{{#each moviesArr.movies as |movie|}}
+  <div class='bg-info bg-gradient m-4 p-2 d-flex justify-content-between align-items-center flex-wrap'>
+    <p class='fs-3'>{{movie.movie_name}}</p>
+
+    <div class='d-flex justify-content-between align-items-center gap-2'>
       <button class='btn btn-danger delete_btn' data-movie_id='{{movie.movie_id}}'>Delete</button>
 
       {{! edit button }}
       <button type='button' class='btn btn-success px-4' data-bs-toggle='modal' data-bs-target='#exampleModal'>
         Edit
       </button>
+      <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#add-review-modal'>
+        Add Review
+      </button>
     </div>
 
   </div>
+
 {{/each}}
+<div class=' m-4 p-2 d-flex justify-content-center align-items-center flex-column' style='background-color: rgb(137, 182, 182);'>
+  <h1>Comments</h1>
+  <ul class='list-group'>
+    {{#each moviesArr.reviews as |reviews|}}
+      <li class='m-2 list-group-item'>{{reviews.review}}</li>
+    {{/each}}
+  </ul>
+</div>
 
 <!-- Modal -->
 <div class='modal fade' id='exampleModal' tabindex='-1' aria-labelledby='add-movie' aria-hidden='true'>
@@ -26,7 +39,7 @@
       </div>
       <div class='modal-body'>
         <form id='edit_btn'>
-          {{#each movies as |movie|}}
+          {{#each moviesArr.movies as |movie|}}
             <input
               type='text'
               value='{{movie.movie_name}}'
@@ -34,6 +47,7 @@
               placeholder='Movie name'
             />
             <input type='hidden' class='movie-id' value='{{movie.movie_id}}' />
+
           {{/each}}
           <input type='submit' class='btn btn-success form-control' value='Edit Movie' />
         </form>
@@ -43,5 +57,27 @@
   </div>
 </div>
 
+<!-- Modal for adding review -->
+<div class='modal fade' id='add-review-modal' tabindex='-1' aria-labelledby='add-movie' aria-hidden='true'>
+  <div class='modal-dialog'>
+    <div class='modal-content'>
+      <div class='modal-header'>
+        <h5 class='modal-title' id='exampleModalLabel'>ADD Review</h5>
+        <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+      </div>
+      <div class='modal-body'>
+        <form id='add-review'>
+          <input type='text' class='review form-control mb-2' placeholder='Review' />
+
+          <input type='submit' class='btn btn-primary form-control' value='Add Review' />
+
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 <script src='/js/delete-movie.js'></script>
 <script src='/js/edit-movie.js'></script>
+<script src='/js/add-review.js'></script>
